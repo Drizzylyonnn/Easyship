@@ -304,26 +304,41 @@
 <script>
 (function(){
   var cities = [
-    {code:"LOS", name:"Lagos", x:490, y:250},
-    {code:"LHR", name:"London", x:485, y:95},
-    {code:"JFK", name:"New York", x:210, y:130},
-    {code:"LAX", name:"Los Angeles", x:95, y:145},
-    {code:"DXB", name:"Dubai", x:660, y:165},
-    {code:"HND", name:"Tokyo", x:895, y:135},
-    {code:"SYD", name:"Sydney", x:895, y:340},
-    {code:"CDG", name:"Paris", x:500, y:90},
-    {code:"BOM", name:"Mumbai", x:695, y:200},
-    {code:"JNB", name:"Johannesburg", x:545, y:310},
-    {code:"GRU", name:"Sao Paulo", x:225, y:330},
-    {code:"YYZ", name:"Toronto", x:200, y:110}
+    {code:"LOS", name:"Lagos", state:"Lagos State", country:"Nigeria", x:490, y:250},
+    {code:"LHR", name:"London", state:"England", country:"United Kingdom", x:485, y:95},
+    {code:"JFK", name:"New York City", state:"New York", country:"United States", x:210, y:130},
+    {code:"LAX", name:"Los Angeles", state:"California", country:"United States", x:95, y:145},
+    {code:"DXB", name:"Dubai", state:"Dubai", country:"United Arab Emirates", x:660, y:165},
+    {code:"HND", name:"Tokyo", state:"Tokyo Prefecture", country:"Japan", x:895, y:135},
+    {code:"SYD", name:"Sydney", state:"New South Wales", country:"Australia", x:895, y:340},
+    {code:"CDG", name:"Paris", state:"Île-de-France", country:"France", x:500, y:90},
+    {code:"BOM", name:"Mumbai", state:"Maharashtra", country:"India", x:695, y:200},
+    {code:"JNB", name:"Johannesburg", state:"Gauteng", country:"South Africa", x:545, y:310},
+    {code:"GRU", name:"São Paulo", state:"São Paulo", country:"Brazil", x:225, y:330},
+    {code:"YYZ", name:"Toronto", state:"Ontario", country:"Canada", x:200, y:110},
+    {code:"AMS", name:"Amsterdam", state:"North Holland", country:"Netherlands", x:500, y:80},
+    {code:"SIN", name:"Singapore", state:"Central Region", country:"Singapore", x:800, y:240},
+    {code:"CPT", name:"Cape Town", state:"Western Cape", country:"South Africa", x:560, y:325},
+    {code:"FRA", name:"Frankfurt", state:"Hesse", country:"Germany", x:520, y:100},
+    {code:"MAD", name:"Madrid", state:"Community of Madrid", country:"Spain", x:480, y:120},
+    {code:"DOH", name:"Doha", state:"Doha", country:"Qatar", x:670, y:170},
+    {code:"KUL", name:"Kuala Lumpur", state:"Federal Territory", country:"Malaysia", x:770, y:230},
+    {code:"HKG", name:"Hong Kong", state:"Hong Kong Island", country:"Hong Kong", x:820, y:182},
+    {code:"NBO", name:"Nairobi", state:"Nairobi County", country:"Kenya", x:590, y:260},
+    {code:"ABJ", name:"Abidjan", state:"Lagunes", country:"Côte d’Ivoire", x:490, y:250},
+    {code:"CAI", name:"Cairo", state:"Cairo Governorate", country:"Egypt", x:590, y:180},
+    {code:"MIA", name:"Miami", state:"Florida", country:"United States", x:205, y:220},
+    {code:"SFO", name:"San Francisco", state:"California", country:"United States", x:100, y:160},
+    {code:"GIG", name:"Rio de Janeiro", state:"Rio de Janeiro", country:"Brazil", x:260, y:320}
   ];
 
   var fromSel = document.getElementById('from');
   var toSel = document.getElementById('to');
   cities.forEach(function(c, i){
-    var o1 = document.createElement('option'); o1.value = i; o1.textContent = c.name + " (" + c.code + ")";
+    var label = (c.country || 'Global') + " — " + (c.state || 'State') + " — " + (c.name || 'Location') + " (" + c.code + ")";
+    var o1 = document.createElement('option'); o1.value = i; o1.textContent = label;
     fromSel.appendChild(o1);
-    var o2 = document.createElement('option'); o2.value = i; o2.textContent = c.name + " (" + c.code + ")";
+    var o2 = document.createElement('option'); o2.value = i; o2.textContent = label;
     toSel.appendChild(o2);
   });
   fromSel.value = 0; toSel.value = 1;

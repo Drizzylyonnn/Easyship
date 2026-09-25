@@ -99,19 +99,19 @@
   }
   .booking-inner{
     background:var(--paper); color:var(--ink);
-    display:grid; grid-template-columns:1fr 1fr 1fr 1fr auto; gap:0;
+    display:grid; grid-template-columns:repeat(9, minmax(110px, 1fr)); gap:0;
     border:1px solid #00000014;
     box-shadow:var(--shadow);
     transform:translateY(-8px);
   }
-  .field{padding:18px 20px; border-right:1px solid #00000014;}
-  .field:last-of-type{border-right:none;}
-  .field label{display:block; font-size:.78rem; color:#6b6558; margin-bottom:6px;}
-  .field select, .field input{
-    width:100%; border:none; background:transparent; font-size:1rem; color:var(--ink);
+  .field, .location-block{padding:18px 20px; border-right:1px solid #00000014;}
+  .field:last-of-type, .location-block:last-of-type{border-right:none;}
+  .field label, .location-block label{display:block; font-size:.78rem; color:#6b6558; margin-bottom:6px;}
+  .field select, .field input, .location-block select, .location-block input{
+    width:100%; border:none; background:transparent; font-size:1rem; color:rgba(24,35,45,0.5);
     font-family:inherit; outline:none; padding:0; min-height:28px;
   }
-  .field select{appearance:none; -webkit-appearance:none; cursor:pointer;}
+  .field select, .location-block select{appearance:none; -webkit-appearance:none; cursor:pointer;}
   .go-btn{
     background:linear-gradient(180deg, var(--amber), var(--amber-strong));
     color:var(--ink); border:none; padding:0 34px;
@@ -130,20 +130,22 @@
 
   @media (max-width:980px){
     header{padding:22px 20px;}
-    .booking-inner{grid-template-columns:1fr 1fr;}
+    .booking-inner{grid-template-columns:repeat(3, minmax(180px, 1fr));}
     .go-btn{padding:0 18px;}
     .name-row{grid-template-columns:1fr;}
     .map-section, .ticket-wrap, .track-section{padding-left:20px; padding-right:20px;}
   }
 
   @media(max-width:820px){
-    .booking-inner{grid-template-columns:1fr 1fr;}
-    .field{border-right:1px solid #00000014; border-bottom:1px solid #00000014;}
+    .booking-inner{grid-template-columns:repeat(2, minmax(160px,1fr));}
+    .field, .location-block{border-right:1px solid #00000014; border-bottom:1px solid #00000014;}
     .go-btn{grid-column:1/-1; padding:16px;}
     .name-row{grid-template-columns:1fr;}
   }
 
   @media (max-width:560px){
+    .location-block, .field{padding:12px 14px;}
+    .booking-inner{grid-template-columns:1fr;}
     header{
       padding:18px 18px 12px;
       gap:12px;
@@ -358,13 +360,29 @@
 
 <div class="booking" id="book">
   <div class="booking-inner">
-    <div class="field">
-      <label for="from">From</label>
-      <select id="from"></select>
+    <div class="location-block">
+      <label for="fromCountry">From country</label>
+      <select id="fromCountry"></select>
     </div>
-    <div class="field">
-      <label for="to">To</label>
-      <select id="to"></select>
+    <div class="location-block">
+      <label for="fromState">From state</label>
+      <select id="fromState"><option value="">Optional</option></select>
+    </div>
+    <div class="location-block">
+      <label for="fromCity">From city</label>
+      <select id="fromCity"><option value="">Optional</option></select>
+    </div>
+    <div class="location-block">
+      <label for="toCountry">To country</label>
+      <select id="toCountry"></select>
+    </div>
+    <div class="location-block">
+      <label for="toState">To state</label>
+      <select id="toState"><option value="">Optional</option></select>
+    </div>
+    <div class="location-block">
+      <label for="toCity">To city</label>
+      <select id="toCity"><option value="">Optional</option></select>
     </div>
     <div class="field">
       <label for="date">Departure</label>
@@ -529,56 +547,206 @@
 
     var routeData = {
       air: [
-        {code:'LOS', name:'Lagos', lat:6.5244, lng:3.3792},
-        {code:'LHR', name:'London', lat:51.4700, lng:-0.4543},
-        {code:'JFK', name:'New York', lat:40.6413, lng:-73.7781},
-        {code:'LAX', name:'Los Angeles', lat:33.9416, lng:-118.4085},
-        {code:'DXB', name:'Dubai', lat:25.2532, lng:55.3657},
-        {code:'HND', name:'Tokyo', lat:35.5494, lng:139.7798},
-        {code:'SYD', name:'Sydney', lat:-33.9399, lng:151.1753},
-        {code:'CDG', name:'Paris', lat:49.0097, lng:2.5479},
-        {code:'BOM', name:'Mumbai', lat:19.0896, lng:72.8656},
-        {code:'JNB', name:'Johannesburg', lat:-26.1392, lng:28.2460},
-        {code:'GRU', name:'Sao Paulo', lat:-23.4356, lng:-46.4731},
-        {code:'YYZ', name:'Toronto', lat:43.6777, lng:-79.6248}
+        {code:'LOS', name:'Lagos', state:'Lagos State', country:'Nigeria', lat:6.5244, lng:3.3792},
+        {code:'LHR', name:'London', state:'England', country:'United Kingdom', lat:51.4700, lng:-0.4543},
+        {code:'JFK', name:'New York City', state:'New York', country:'United States', lat:40.6413, lng:-73.7781},
+        {code:'LAX', name:'Los Angeles', state:'California', country:'United States', lat:33.9416, lng:-118.4085},
+        {code:'DXB', name:'Dubai', state:'Dubai', country:'United Arab Emirates', lat:25.2532, lng:55.3657},
+        {code:'HND', name:'Tokyo', state:'Tokyo Prefecture', country:'Japan', lat:35.5494, lng:139.7798},
+        {code:'SYD', name:'Sydney', state:'New South Wales', country:'Australia', lat:-33.9399, lng:151.1753},
+        {code:'CDG', name:'Paris', state:'Île-de-France', country:'France', lat:49.0097, lng:2.5479},
+        {code:'BOM', name:'Mumbai', state:'Maharashtra', country:'India', lat:19.0896, lng:72.8656},
+        {code:'JNB', name:'Johannesburg', state:'Gauteng', country:'South Africa', lat:-26.1392, lng:28.2460},
+        {code:'GRU', name:'São Paulo', state:'São Paulo', country:'Brazil', lat:-23.4356, lng:-46.4731},
+        {code:'YYZ', name:'Toronto', state:'Ontario', country:'Canada', lat:43.6777, lng:-79.6248},
+        {code:'AMS', name:'Amsterdam', state:'North Holland', country:'Netherlands', lat:52.3676, lng:4.9041},
+        {code:'SIN', name:'Singapore', state:'Central Region', country:'Singapore', lat:1.3644, lng:103.9915},
+        {code:'CPT', name:'Cape Town', state:'Western Cape', country:'South Africa', lat:-33.9708, lng:18.6021},
+        {code:'FRA', name:'Frankfurt', state:'Hesse', country:'Germany', lat:50.0379, lng:8.5622},
+        {code:'MAD', name:'Madrid', state:'Community of Madrid', country:'Spain', lat:40.4983, lng:-3.5676},
+        {code:'DOH', name:'Doha', state:'Doha', country:'Qatar', lat:25.2854, lng:51.5310},
+        {code:'KUL', name:'Kuala Lumpur', state:'Federal Territory', country:'Malaysia', lat:2.7456, lng:101.7099},
+        {code:'HKG', name:'Hong Kong', state:'Hong Kong Island', country:'Hong Kong', lat:22.3193, lng:114.1694},
+        {code:'NBO', name:'Nairobi', state:'Nairobi County', country:'Kenya', lat:-1.2864, lng:36.8172},
+        {code:'ABJ', name:'Abidjan', state:'Lagunes', country:'Côte d’Ivoire', lat:5.3599, lng:-4.0083},
+        {code:'CAI', name:'Cairo', state:'Cairo Governorate', country:'Egypt', lat:30.1219, lng:31.4056},
+        {code:'MIA', name:'Miami', state:'Florida', country:'United States', lat:25.7959, lng:-80.2870},
+        {code:'SFO', name:'San Francisco', state:'California', country:'United States', lat:37.6213, lng:-122.3790},
+        {code:'GIG', name:'Rio de Janeiro', state:'Rio de Janeiro', country:'Brazil', lat:-22.8098, lng:-43.2509}
       ],
       ship: [
-        {code:'LAG', name:'Lagos Port', lat:6.4492, lng:3.3940},
-        {code:'LON', name:'London Port', lat:51.5074, lng:-0.1278},
-        {code:'NYC', name:'New York Port', lat:40.7128, lng:-74.0060},
-        {code:'LAXP', name:'Los Angeles Port', lat:33.7366, lng:-118.2647},
-        {code:'DXB', name:'Dubai Port', lat:25.2048, lng:55.2708},
-        {code:'TYO', name:'Tokyo Port', lat:35.6762, lng:139.6503},
-        {code:'SYD', name:'Sydney Port', lat:-33.8688, lng:151.2093},
-        {code:'PAR', name:'Paris Port', lat:49.1193, lng:2.3522},
-        {code:'MUM', name:'Mumbai Port', lat:18.9403, lng:72.8354},
-        {code:'JNB', name:'Johannesburg Port', lat:-26.2041, lng:28.0473},
-        {code:'SAO', name:'Sao Paulo Port', lat:-23.5505, lng:-46.6333},
-        {code:'TOR', name:'Toronto Port', lat:43.6511, lng:-79.3470}
+        {code:'LAG', name:'Lagos Port', state:'Lagos State', country:'Nigeria', lat:6.4492, lng:3.3940},
+        {code:'LON', name:'London Port', state:'England', country:'United Kingdom', lat:51.5074, lng:-0.1278},
+        {code:'NYC', name:'New York Port', state:'New York', country:'United States', lat:40.7128, lng:-74.0060},
+        {code:'LAXP', name:'Los Angeles Port', state:'California', country:'United States', lat:33.7366, lng:-118.2647},
+        {code:'DXB', name:'Dubai Port', state:'Dubai', country:'United Arab Emirates', lat:25.2048, lng:55.2708},
+        {code:'TYO', name:'Tokyo Port', state:'Tokyo Prefecture', country:'Japan', lat:35.6762, lng:139.6503},
+        {code:'SYD', name:'Sydney Port', state:'New South Wales', country:'Australia', lat:-33.8688, lng:151.2093},
+        {code:'PAR', name:'Paris Port', state:'Île-de-France', country:'France', lat:49.1193, lng:2.3522},
+        {code:'MUM', name:'Mumbai Port', state:'Maharashtra', country:'India', lat:18.9403, lng:72.8354},
+        {code:'JNB', name:'Johannesburg Port', state:'Gauteng', country:'South Africa', lat:-26.2041, lng:28.0473},
+        {code:'SAO', name:'São Paulo Port', state:'São Paulo', country:'Brazil', lat:-23.5505, lng:-46.6333},
+        {code:'TOR', name:'Toronto Port', state:'Ontario', country:'Canada', lat:43.6511, lng:-79.3470},
+        {code:'AMS', name:'Amsterdam Port', state:'North Holland', country:'Netherlands', lat:52.3779, lng:4.8971},
+        {code:'SIN', name:'Singapore Port', state:'Central Region', country:'Singapore', lat:1.2644, lng:103.8238},
+        {code:'CPT', name:'Cape Town Port', state:'Western Cape', country:'South Africa', lat:-33.9249, lng:18.4241},
+        {code:'FRA', name:'Frankfurt Port', state:'Hesse', country:'Germany', lat:50.1109, lng:8.6821},
+        {code:'MAD', name:'Madrid Port', state:'Community of Madrid', country:'Spain', lat:40.4168, lng:-3.7038},
+        {code:'DOH', name:'Doha Port', state:'Doha', country:'Qatar', lat:25.2867, lng:51.5333},
+        {code:'KUL', name:'Kuala Lumpur Port', state:'Federal Territory', country:'Malaysia', lat:3.1390, lng:101.6869},
+        {code:'HKG', name:'Hong Kong Port', state:'Hong Kong Island', country:'Hong Kong', lat:22.3193, lng:114.1694},
+        {code:'NBO', name:'Nairobi Port', state:'Nairobi County', country:'Kenya', lat:-1.2921, lng:36.8219},
+        {code:'ABJ', name:'Abidjan Port', state:'Lagunes', country:'Côte d’Ivoire', lat:5.3097, lng:-4.0127},
+        {code:'CAI', name:'Cairo Port', state:'Cairo Governorate', country:'Egypt', lat:30.0444, lng:31.2357},
+        {code:'MIA', name:'Miami Port', state:'Florida', country:'United States', lat:25.7781, lng:-80.1795},
+        {code:'SFO', name:'San Francisco Port', state:'California', country:'United States', lat:37.7749, lng:-122.4194},
+        {code:'GIG', name:'Rio de Janeiro Port', state:'Rio de Janeiro', country:'Brazil', lat:-22.9068, lng:-43.1729}
       ]
     };
 
-    var fromSel = document.getElementById('from');
-    var toSel = document.getElementById('to');
+    var fromCountrySel = document.getElementById('fromCountry');
+    var fromStateSel = document.getElementById('fromState');
+    var fromCitySel = document.getElementById('fromCity');
+    var toCountrySel = document.getElementById('toCountry');
+    var toStateSel = document.getElementById('toState');
+    var toCitySel = document.getElementById('toCity');
     var modeSel = document.getElementById('mode');
     var dateInput = document.getElementById('date');
     var today = new Date();
     dateInput.value = today.toISOString().slice(0,10);
     dateInput.min = today.toISOString().slice(0,10);
 
-    function populateSelects(mode){
-      var list = routeData[mode] || routeData.air;
-      fromSel.innerHTML = '';
-      toSel.innerHTML = '';
-      list.forEach(function(c, i){
-        var o1 = document.createElement('option'); o1.value = i; o1.textContent = c.name + ' (' + c.code + ')'; fromSel.appendChild(o1);
-        var o2 = document.createElement('option'); o2.value = i; o2.textContent = c.name + ' (' + c.code + ')'; toSel.appendChild(o2);
+    function buildLocationCatalog(list) {
+      var catalog = {};
+      list.forEach(function(item) {
+        var country = item.country || 'Other';
+        if (!catalog[country]) catalog[country] = {};
+        var stateName = item.state || 'Other';
+        if (!catalog[country][stateName]) catalog[country][stateName] = [];
+        catalog[country][stateName].push(item);
       });
-      fromSel.value = 0; toSel.value = 1;
+      return Object.keys(catalog).sort().map(function(country) {
+        var states = Object.keys(catalog[country]).sort().map(function(stateName) {
+          return {
+            name: stateName,
+            cities: catalog[country][stateName].sort(function(a, b) {
+              return (a.name || '').localeCompare(b.name || '');
+            })
+          };
+        });
+        return { country: country, states: states };
+      });
     }
 
-    modeSel.addEventListener('change', function(){ populateSelects(modeSel.value); });
-    populateSelects(modeSel.value);
+    var locationCatalog = {
+      air: buildLocationCatalog(routeData.air),
+      ship: buildLocationCatalog(routeData.ship)
+    };
+
+    function getActiveCatalog() {
+      return locationCatalog[modeSel.value] || locationCatalog.air;
+    }
+
+    function findFirstCity(catalogCountry, stateName) {
+      var state = (catalogCountry && catalogCountry.states || []).find(function(item) {
+        return !stateName || item.name === stateName;
+      });
+      if (state && state.cities && state.cities.length) {
+        return state.cities[0];
+      }
+      var flatCities = (catalogCountry && catalogCountry.states || []).reduce(function(all, item) {
+        return all.concat(item.cities || []);
+      }, []);
+      return flatCities[0] || null;
+    }
+
+    function populateCountryOptions() {
+      var countries = getActiveCatalog();
+      function renderSelector(selector, fallbackCountry) {
+        selector.innerHTML = '<option value="">Choose country</option>' + countries.map(function(country) {
+          return '<option value="' + country.country + '">' + country.country + '</option>';
+        }).join('');
+        if (fallbackCountry && countries.some(function(item) { return item.country === fallbackCountry; })) {
+          selector.value = fallbackCountry;
+        } else if (countries.length) {
+          selector.value = countries[0].country;
+        }
+      }
+      renderSelector(fromCountrySel, 'Nigeria');
+      renderSelector(toCountrySel, 'United Kingdom');
+      syncStateAndCityOptions('from');
+      syncStateAndCityOptions('to');
+    }
+
+    function syncStateAndCityOptions(side) {
+      var countrySel = side === 'from' ? fromCountrySel : toCountrySel;
+      var stateSel = side === 'from' ? fromStateSel : toStateSel;
+      var citySel = side === 'from' ? fromCitySel : toCitySel;
+      var country = countrySel.value || getActiveCatalog()[0].country;
+      var countryEntry = getActiveCatalog().find(function(item) {
+        return item.country === country;
+      }) || getActiveCatalog()[0];
+
+      stateSel.innerHTML = '<option value="">Choose state</option>' + (countryEntry.states || []).map(function(state) {
+        return '<option value="' + state.name + '">' + state.name + '</option>';
+      }).join('');
+      var defaultState = (countryEntry.states && countryEntry.states.length) ? countryEntry.states[0].name : '';
+      stateSel.value = stateSel.value && (countryEntry.states || []).some(function(item) { return item.name === stateSel.value; }) ? stateSel.value : '';
+      if (!stateSel.value && defaultState) {
+        stateSel.value = defaultState;
+      }
+
+      var allCities = (countryEntry.states || []).reduce(function(result, state) {
+        return result.concat(state.cities || []);
+      }, []);
+      var selectedState = stateSel.value;
+      var cityList = selectedState ? ((countryEntry.states || []).find(function(item) { return item.name === selectedState; }) || {}).cities || allCities : allCities;
+      citySel.innerHTML = '<option value="">Choose city</option>' + cityList.map(function(city) {
+        return '<option value="' + city.code + '">' + city.name + '</option>';
+      }).join('');
+      var currentValue = citySel.value;
+      if (!currentValue || !cityList.some(function(city) { return city.code === currentValue; })) {
+        citySel.value = '';
+      }
+    }
+
+    function resolveLocation(side) {
+      var countrySel = side === 'from' ? fromCountrySel : toCountrySel;
+      var stateSel = side === 'from' ? fromStateSel : toStateSel;
+      var citySel = side === 'from' ? fromCitySel : toCitySel;
+      var countryEntry = getActiveCatalog().find(function(item) {
+        return item.country === countrySel.value;
+      }) || getActiveCatalog()[0];
+      var stateName = stateSel.value;
+      var cityList = stateName ? ((countryEntry.states || []).find(function(item) { return item.name === stateName; }) || {}).cities || [] : (countryEntry.states || []).reduce(function(result, item) {
+        return result.concat(item.cities || []);
+      }, []);
+      var selectedCity = cityList.find(function(item) { return item.code === citySel.value; }) || findFirstCity(countryEntry, stateName) || cityList[0] || null;
+      if (!selectedCity) {
+        return null;
+      }
+      return selectedCity;
+    }
+
+    function updateLocationControls() {
+      populateCountryOptions();
+      fromCountrySel.addEventListener('change', function() { syncStateAndCityOptions('from'); });
+      toCountrySel.addEventListener('change', function() { syncStateAndCityOptions('to'); });
+      fromStateSel.addEventListener('change', function() { syncStateAndCityOptions('from'); });
+      toStateSel.addEventListener('change', function() { syncStateAndCityOptions('to'); });
+      fromCitySel.addEventListener('change', function() {
+        if (!fromCitySel.value) {
+          fromCitySel.value = resolveLocation('from') ? resolveLocation('from').code : '';
+        }
+      });
+      toCitySel.addEventListener('change', function() {
+        if (!toCitySel.value) {
+          toCitySel.value = resolveLocation('to') ? resolveLocation('to').code : '';
+        }
+      });
+      modeSel.addEventListener('change', function() { populateCountryOptions(); });
+    }
+    updateLocationControls();
 
     var planeInterval = null;
     var currentTicket = null;
@@ -732,9 +900,16 @@
 
     document.getElementById('genBtn').addEventListener('click', async function(){
       var routeMode = modeSel.value;
-      var list = routeData[routeMode] || routeData.air;
-      var a=list[fromSel.value], b=list[toSel.value];
-      if(fromSel.value===toSel.value){ alert('Choose two different cities.'); return; }
+      var a = resolveLocation('from');
+      var b = resolveLocation('to');
+      if (!a || !b) {
+        alert('Please choose a valid origin and destination.');
+        return;
+      }
+      if (a.code === b.code) {
+        alert('Choose two different locations.');
+        return;
+      }
       var name=document.getElementById('pname').value.trim()||'Guest passenger';
       var seat=document.getElementById('seatpref').value;
       var date=dateInput.value;
