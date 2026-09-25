@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/favicon.svg", "dest": "/public/favicon.svg" },
+    { "src": "/Easyship.html", "dest": "/public/Easyship.html" },
+    { "src": "/Aerogram.html", "dest": "/public/Easyship.html" },
+    { "src": "/admin", "dest": "/public/admin.html" },
+    { "src": "/api/seo/home.json", "dest": "/public/api/seo/home.json" },
+    { "src": "/api/health", "dest": "/api/health" },
+    { "src": "/api/shipments", "dest": "/api/shipments" },
+    { "src": "/api/shipments/(.*)", "dest": "/api/shipments/$1" },
+    { "src": "/api/admin", "dest": "/api/admin" },
+    { "src": "/api/admin/(.*)", "dest": "/api/admin/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}

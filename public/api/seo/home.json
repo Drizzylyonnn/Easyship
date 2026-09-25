@@ -1,0 +1,8 @@
+{
+  "title": "Easyship — Home",
+  "description": "Easyship demo app with dynamic SEO meta fetched from an API.",
+  "ogTitle": "Easyship — Ship faster and smarter",
+  "ogDescription": "A logistics tracking demo showing how to manage cargo bookings and live shipment status.",
+  "ogImage": "https://via.placeholder.com/1200x630.png?text=Easyship",
+  "canonical": "https://easyshipp.com/"
+}
