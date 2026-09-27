@@ -1,0 +1,75 @@
+.app-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.app-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.app-main {
+  line-height: 1.6;
+  color: #444;
+  font-size: 1rem;
+}
+
+/* Tablet and smaller */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 15px;
+  }
+  
+  .app-header {
+    margin-bottom: 30px;
+    padding: 15px 0;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .app-header p {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 10px;
+  }
+  
+  .app-header {
+    margin-bottom: 20px;
+    padding: 10px 0;
+  }
+  
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .app-header p {
+    font-size: 0.9rem;
+  }
+  
+  .app-main {
+    font-size: 0.9rem;
+  }
+}
