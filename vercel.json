@@ -4,6 +4,9 @@
   "outputDirectory": "dist",
   "routes": [
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
@@ -11,12 +14,6 @@
       "src": "/(.*)",
       "dest": "/index.html",
       "status": 200
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
     }
   ],
   "headers": [
