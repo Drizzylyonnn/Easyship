@@ -1,11 +1,11 @@
-# Aerogram SEO React
+# Easyship
 
-Minimal Vite + React app demonstrating SEO meta injection by fetching from an API.
+Minimal Vite + React app for the Easyship demo.
 
 Quick start
 
 ```bash
-cd Aerogram
+cd Easyship
 npm install
 npm run dev
 ```
@@ -17,16 +17,16 @@ Google Maps API (optional)
 - This demo can use the Google Maps JavaScript API for the live map. If you don't supply a key the page falls back to Leaflet/OpenStreetMap.
 - To create an API key:
 	1. Visit https://console.cloud.google.com/ and sign in.
- 2. Create or select a project.
- 3. Enable the "Maps JavaScript API" for the project.
- 4. Under "APIs & Services → Credentials" create an API key and restrict it to the Maps JavaScript API and your origin if desired.
+  2. Create or select a project.
+  3. Enable the "Maps JavaScript API" for the project.
+  4. Under "APIs & Services → Credentials" create an API key and restrict it to the Maps JavaScript API and your origin if desired.
 
 How to use the key with this demo
 - Option A — URL parameter (recommended for quick local testing): open the page with the key in the query string:
 
-	http://localhost:5173/Aerogram.html?gm_key=YOUR_API_KEY
+	http://localhost:5173/Easyship.html?gm_key=YOUR_API_KEY
 
-- Option B — edit the file directly: open `public/Aerogram.html` and set the `GM_API_KEY` variable at the bottom of the file.
+- Option B — edit the file directly: open `public/Easyship.html` and set the `GM_API_KEY` variable at the bottom of the file.
 
 Notes
 - If the Google key is invalid or restricted, the app automatically falls back to Leaflet (no key required).
@@ -46,9 +46,9 @@ copy .env.example .env
 
 ```env
 PORT=3001
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/aerogram?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/easyship?retryWrites=true&w=majority
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD=aerogram123
+ADMIN_PASSWORD=easyship123
 SESSION_SECRET=change_this_secret
 ```
 

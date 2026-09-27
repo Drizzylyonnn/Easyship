@@ -5,8 +5,8 @@ export default function App() {
   return (
     <div>
       <SeoFromApi apiUrl="/api/seo/home.json" />
-      <h1>Welcome to Aerogram (React)</h1>
-      <p>This is a minimal demo with SEO meta fetched from an API.</p>
+      <h1>Welcome to Easyship</h1>
+      <p>This is the Easyship demo app with metadata fetched from an API.</p>
     </div>
   )
 }
